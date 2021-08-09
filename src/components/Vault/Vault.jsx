@@ -23,6 +23,7 @@ import shareActive from 'images/share-active.svg';
 import capital from 'images/coins.svg';
 import capitalActive from 'images/coins-active.svg';
 import logo from 'images/logo.png';
+import detectEthereumProvider from '@metamask/detect-provider'
 
 import 'styles/Dapp.css';
 
@@ -87,7 +88,6 @@ export default class Vault extends Component {
     }
 
     this.web3 = new Web3(getProvider());
-    this.accountWeb3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
     this.refresh = this.refresh.bind(this);
     this.getDepositLimit = this.getDepositLimit.bind(this);
     this.getTotalAssets = this.getTotalAssets.bind(this);
@@ -103,7 +103,6 @@ export default class Vault extends Component {
 
   async shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.account !== this.props.account || nextProps.address !== this.props.address) {
-      console.log('shouldComponentUpdate()');
       this.web3 = new Web3(getProvider());
       await this.getOraclePrice(nextProps);
       await this.refresh();
@@ -127,8 +126,12 @@ export default class Vault extends Component {
       await this.getPricePerShare();
 
       if (this.props.deprecated) {
-        this.deprecatedVault = await new this.accountWeb3.eth.Contract(this.props.vaultABI, this.props.deprecated);
-        await this.getDeprecatedBalance();
+        const provider = await detectEthereumProvider();
+        if (provider.isConnected()) {
+          this.accountWeb3 = new Web3(provider);
+          this.deprecatedVault = await new this.accountWeb3.eth.Contract(this.props.vaultABI, this.props.deprecated);
+          await this.getDeprecatedBalance();
+        }
       } else {
         this.setState({ displayDeprecatedVault: false });
       }
@@ -188,7 +191,6 @@ export default class Vault extends Component {
   }
 
   async getDeprecatedBalance() {
-    console.log(`this.props.deprecated: ${this.props.deprecated}`)
     if (!this.props.deprecated || this.props.deprecated === '') {
       this.setState({ displayDeprecatedVault: false });
     } else {

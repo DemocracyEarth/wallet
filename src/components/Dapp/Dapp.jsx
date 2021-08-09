@@ -216,11 +216,11 @@ export default class Dapp extends Component {
       this.setState({ chainId, networkId });
     });
 
-    provider.on('networkChanged', async (networkId) => {
+    /* provider.on('networkChanged', async (networkId) => {
       const { web3 } = this.state;
       const chainId = await web3.eth.chainId();
       this.setState({ chainId, networkId });
-    });
+    }); */ 
   }
 
   resize() {
@@ -235,7 +235,6 @@ export default class Dapp extends Component {
     const { web3 } = this.state;
     if (web3 && web3.currentProvider && web3.currentProvider.close) {
       await web3.currentProvider.close();
-      console.log(`web3.isConnected(): ${web3.isConnected()}`);
     }
     this.web3Modal.clearCachedProvider();
     this.setState({ ...INITIAL_STATE });

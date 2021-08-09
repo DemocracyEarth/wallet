@@ -17,6 +17,7 @@ import { config } from 'config';
 import BigNumber from 'bignumber.js/bignumber';
 import i18n from 'i18n';
 import { zeroAddress } from 'lib/const';
+import detectEthereumProvider from '@metamask/detect-provider'
 
 import 'styles/material.css';
 
@@ -54,7 +55,6 @@ export default class Wallet extends Component {
       approved: false,
     };
 
-    this.web3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
     this.handleChange = this.handleChange.bind(this);
     this.checkAllowance = this.checkAllowance.bind(this);
     this.approve = this.approve.bind(this);
@@ -63,7 +63,9 @@ export default class Wallet extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if (this.web3 !== null) {
+    const provider = await detectEthereumProvider();
+    if (provider.isConnected()) {
+      this.web3 = new Web3(provider);
       this.token = await new this.web3.eth.Contract(ERC20abi, this.props.tokenAddress);
       this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.contractAddress);
       if (this.props.accountAddress !== prevProps.accountAddress || this.props.contractAddress !== prevProps.contractAddress) {

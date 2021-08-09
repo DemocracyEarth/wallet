@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { shortenCryptoName } from 'utils/strings';
 import Account from 'components/Account/Account';
+import Human from 'components/Human/Human';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
 
@@ -74,9 +75,7 @@ export default class Event extends Component {
 
   async refresh(address) {
     this.vault = await new this.web3.eth.Contract(ubidaiABI, address);
-
     await this.getFeed();
-    
     this.setState({
       loading: false
     });
@@ -143,13 +142,13 @@ export default class Event extends Component {
           {(post.event === 'Transfer') ?
             <>
               {(post.returnValues.sender !== zeroAddress) ?
-                <Account publicAddress={post.returnValues.sender} width="16px" height="16px" />
+                <Human publicAddress={post.returnValues.sender} width="16px" height="16px" />
                 :
                 <>
                   {(post.returnValues.receiver !== zeroAddress) ?
-                    <Account publicAddress={post.returnValues.receiver} width="16px" height="16px" />
+                    <Human publicAddress={post.returnValues.receiver} width="16px" height="16px" />
                     :
-                    <Account publicAddress={post.returnValues.receiver} width="16px" height="16px" />
+                    <Human publicAddress={post.returnValues.receiver} width="16px" height="16px" />
                   }
                 </>
               }

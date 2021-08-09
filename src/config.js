@@ -11,6 +11,14 @@ export const config = {
   eth: {
     infura: 'wss://mainnet.infura.io/ws/v3/269a4106080549898dcc50dbb84754f3'
   },
+  poh: {
+    api: 'https://api.poh.dev/',
+    profile: 'https://api.poh.dev/profiles/{{publicAddress}}',
+    history: 'https://api.poh.dev/profiles/{{publicAddress}}/status-history',
+    vouches: 'https://api.poh.dev/profiles/{{publicAddress}}/vouches',
+    status: 'https://api.poh.dev/status',
+    ping: 'https://api.poh.dev/ping'
+  },
   keys: {
     fortmatic: 'pk_live_0826872BC201129A',
     portis: '5e0569f8-ac4b-47ed-a2c6-469ceeccf696',

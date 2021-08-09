@@ -10,6 +10,8 @@ import logo from 'images/logo.png';
 
 import { getDescription } from 'components/Post/Post';
 import i18n from 'i18n';
+import detectEthereumProvider from '@metamask/detect-provider'
+
 import 'styles/Dapp.css';
 
 const Web3 = require('web3');
@@ -66,52 +68,64 @@ export default class Choice extends Component {
   }
 
   canVote = async (accountAddress) => {
-    const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
-    const response = await dao.methods.members(web3.utils.toChecksumAddress(accountAddress)).call({}, (err, res) => {
-      if (err) {
-        walletError(err);
-        return err;
-      }
-      return res;
-    });
-    return response.exists;
+    const provider = await detectEthereumProvider();
+    if (provider.isConnected()) {
+      const web3 = new Web3(provider);
+    
+      const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
+      const response = await dao.methods.members(web3.utils.toChecksumAddress(accountAddress)).call({}, (err, res) => {
+        if (err) {
+          walletError(err);
+          return err;
+        }
+        return res;
+      });
+      return response.exists;
+    }
   };
 
   hasVoted = async (accountAddress) => {
-    const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
-    const response = await dao.methods.getMemberProposalVote(web3.utils.toChecksumAddress(accountAddress), this.props.proposalIndex).call({}, (err, res) => {
-      if (err) {
-        walletError(err);
-        return err;
-      }
-      return res;
-    });
-    return (response === 0 || response === '0');
+    const provider = await detectEthereumProvider();
+    if (provider.isConnected()) {
+      const web3 = new Web3(provider);
+
+      const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
+      const response = await dao.methods.getMemberProposalVote(web3.utils.toChecksumAddress(accountAddress), this.props.proposalIndex).call({}, (err, res) => {
+        if (err) {
+          walletError(err);
+          return err;
+        }
+        return res;
+      });
+      return (response === 0 || response === '0');
+    }
   };
 
   execute = async () => {
-    const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
-    await dao.methods.submitVote(this.props.proposalIndex, this.props.voteValue).send({ from: this.props.accountAddress }, (err, res) => {
-      if (err) {
-        walletError(err);
-        return err;
-      }
-      if (res) {
-        window.showModal.value = false;
-        window.modal = {
-          icon: logo,
-          title: i18n.t('vote-cast'),
-          message: i18n.t('voting-interaction', { etherscan: `${config.web.explorer}/tx/${res}` }),
-          cancelLabel: i18n.t('close'),
-          mode: 'ALERT'
+    const provider = await detectEthereumProvider();
+    if (provider.isConnected()) {
+      const web3 = new Web3(provider);
+
+      const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
+      await dao.methods.submitVote(this.props.proposalIndex, this.props.voteValue).send({ from: this.props.accountAddress }, (err, res) => {
+        if (err) {
+          walletError(err);
+          return err;
         }
-        window.showModal.value = true;
-      }
-      return res;
-    });
+        if (res) {
+          window.showModal.value = false;
+          window.modal = {
+            icon: logo,
+            title: i18n.t('vote-cast'),
+            message: i18n.t('voting-interaction', { etherscan: `${config.web.explorer}/tx/${res}` }),
+            cancelLabel: i18n.t('close'),
+            mode: 'ALERT'
+          }
+          window.showModal.value = true;
+        }
+        return res;
+      });
+    }
   };
 
   vote = async () => {
@@ -119,9 +133,10 @@ export default class Choice extends Component {
     if (!this.props.now || this.props.now === 0) {
       return notSynced();
     }
-    
+
     // no web3 wallet
-    if (!window.web3 || !window.web3.currentProvider) {
+    const provider = await detectEthereumProvider();
+    if (!provider.isConnected()) {
       return noWallet();
     }
 

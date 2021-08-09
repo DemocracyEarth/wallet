@@ -179,8 +179,6 @@ const Feed = (props) => {
       data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
     }
 
-    console.log(data);
-
     if (data.proposals.length === 0) {
       if (props.format === 'searchBar') {
         return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />
