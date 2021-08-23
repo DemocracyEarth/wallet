@@ -87,6 +87,7 @@ export default class Vault extends Component {
       web3Enabled: true,
     }
 
+    console.log(`Vault.jsx`);
     this.web3 = new Web3(getProvider());
     this.refresh = this.refresh.bind(this);
     this.getDepositLimit = this.getDepositLimit.bind(this);
@@ -104,6 +105,7 @@ export default class Vault extends Component {
 
   async shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.account !== this.props.account || nextProps.address !== this.props.address) {
+      console.log('Vault.jsx -> shouldComponentUpdate()');
       this.web3 = new Web3(getProvider());
       await this.getOraclePrice(nextProps);
       await this.refresh();
@@ -111,6 +113,7 @@ export default class Vault extends Component {
   }
 
   async componentDidMount() {
+    console.log('Vault.jsx -> componentDidMount()');
     this.web3 = new Web3(getProvider());
     await this.refresh();
   }

@@ -1,21 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-
 import Ledger from 'components/Ledger/Ledger';
 import List from 'components/List/List';
 import Burger from 'components/Menu/Burger';
 import Vault from 'components/Vault/Vault';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
-
 import { daiPriceABI, daiPriceOracle, daiAddress } from 'components/Vault/chainlink-daiprice-abi.js';
 import { wethPriceABI, wethPriceOracle, wethAddress } from 'components/Vault/chainlink-wethprice-abi.js';
 import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
 import { ubiwethABI } from 'components/Vault/ubiweth-abi.js';
-
 import { find } from 'lodash';
-
 import i18n from 'i18n';
 import { view as routerView } from 'lib/const';
 import twitterCard from 'images/twitter-meta.png';
@@ -189,7 +185,7 @@ const Layout = (props) => {
               view={view} 
               proposalId={proposalId} 
               first={25} 
-              skip={0}  
+              skip={0}
             />
           </div>
         </div>

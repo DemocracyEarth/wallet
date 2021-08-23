@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getProvider } from 'lib/web3';
 import { shortenCryptoName } from 'utils/strings';
 import { config } from 'config';
 
 import 'styles/Dapp.css';
 
 const makeBlockie = require('ethereum-blockies-base64');
-const Web3 = require('web3');
 
 /**
 * @summary renders a post in the timeline
@@ -33,9 +31,6 @@ export default class Human extends Component {
       finalWidth: '',
       finalHeight: '',
     }
-
-    this.web3 = new Web3(getProvider());
-
   }
 
 
