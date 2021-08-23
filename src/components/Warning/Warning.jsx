@@ -26,7 +26,7 @@ export default class Warning extends Component {
           {parser(this.props.label)}
           {(this.props.hasCallToAction) ?
             <div onClick={this.props.callToAction}>
-              {parser(i18n.t('vault-warning-withdraw'))}
+              {parser(i18n.t(this.props.callToActionLabel))}
             </div>
             :
             null

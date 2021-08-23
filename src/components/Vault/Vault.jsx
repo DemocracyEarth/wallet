@@ -16,13 +16,12 @@ import Warning from 'components/Warning/Warning';
 import { walletError, awaitTransaction } from 'components/Choice/messages';
 import vault from 'images/vault.svg';
 import ethereum from 'images/ethereum.svg';
-import price from 'images/price.svg';
-import priceActive from 'images/price-active.svg';
 import share from 'images/share.svg';
 import shareActive from 'images/share-active.svg';
 import capital from 'images/coins.svg';
 import capitalActive from 'images/coins-active.svg';
 import logo from 'images/logo.png';
+import detectEthereumProvider from '@metamask/detect-provider'
 
 import 'styles/Dapp.css';
 
@@ -34,7 +33,7 @@ import i18n from 'i18n';
 import { getProvider } from 'lib/web3';
 
 const Web3 = require('web3');
-
+const numeral = require('numeral');
 
 const response = (err, res) => {
   if (err) {
@@ -83,11 +82,13 @@ export default class Vault extends Component {
       capitalization: '',
       prices: '',
       assets: '',
-      percentage: ''
+      percentage: '',
+      showFullText: false,
+      web3Enabled: true,
     }
 
+    console.log(`Vault.jsx`);
     this.web3 = new Web3(getProvider());
-    this.accountWeb3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
     this.refresh = this.refresh.bind(this);
     this.getDepositLimit = this.getDepositLimit.bind(this);
     this.getTotalAssets = this.getTotalAssets.bind(this);
@@ -99,11 +100,12 @@ export default class Vault extends Component {
     this.getDeprecatedBalance = this.getDeprecatedBalance.bind(this);
     this.withdrawDeprecated = this.withdrawDeprecated.bind(this);
     this.setLabels = this.setLabels.bind(this);
+    this.parse = this.parse.bind(this);
   }
 
   async shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.account !== this.props.account || nextProps.address !== this.props.address) {
-      console.log('shouldComponentUpdate()');
+      console.log('Vault.jsx -> shouldComponentUpdate()');
       this.web3 = new Web3(getProvider());
       await this.getOraclePrice(nextProps);
       await this.refresh();
@@ -111,6 +113,7 @@ export default class Vault extends Component {
   }
 
   async componentDidMount() {
+    console.log('Vault.jsx -> componentDidMount()');
     this.web3 = new Web3(getProvider());
     await this.refresh();
   }
@@ -125,17 +128,20 @@ export default class Vault extends Component {
       await this.getAvailableDepositLimit();
       await this.getBalanceOf();
       await this.getPricePerShare();
+      this.getSharesValue();
 
-      if (this.props.deprecated) {
-        this.deprecatedVault = await new this.accountWeb3.eth.Contract(this.props.vaultABI, this.props.deprecated);
-        await this.getDeprecatedBalance();
-      } else {
-        this.setState({ displayDeprecatedVault: false });
+      const provider = await detectEthereumProvider();
+      if (provider && provider.isConnected()) {
+        if (this.props.deprecated) {
+          this.accountWeb3 = new Web3(provider);
+          this.deprecatedVault = await new this.accountWeb3.eth.Contract(this.props.vaultABI, this.props.deprecated);
+          await this.getDeprecatedBalance();
+        } else {
+          this.setState({ displayDeprecatedVault: false });
+        }
+      } else if (!provider) {
+        this.setState({ web3Enabled: false });
       }
-
-      this.setState({
-        sharesValue: new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18)).multipliedBy(this.state.pricePerShare).toString()
-      });
 
       await this.setLabels();
     }
@@ -152,8 +158,18 @@ export default class Vault extends Component {
 
   async getOraclePrice(nextProps) {
     this.priceFeed = await new this.web3.eth.Contract(nextProps.oracleABI, nextProps.oracle);
+    const oraclePrice = await this.priceFeed.methods.latestAnswer().call({}, response);
     this.setState({
-      oraclePrice: await this.priceFeed.methods.latestAnswer().call({}, response)
+      oraclePrice, 
+    });
+  }
+
+  getSharesValue() {
+    const oracle = new BigNumber(this.state.oraclePrice).dividedBy(Math.pow(10, 8));
+    const shares = new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18));
+    const sharesValue = numeral(oracle.multipliedBy(shares).toNumber()).format('0,0.00');
+    this.setState({
+      sharesValue,
     });
   }
 
@@ -188,7 +204,6 @@ export default class Vault extends Component {
   }
 
   async getDeprecatedBalance() {
-    console.log(`this.props.deprecated: ${this.props.deprecated}`)
     if (!this.props.deprecated || this.props.deprecated === '') {
       this.setState({ displayDeprecatedVault: false });
     } else {
@@ -230,6 +245,19 @@ export default class Vault extends Component {
     });
   }
 
+  parse(text) {
+    if (this.state.showFullText) {
+      if (typeof text === 'string') {
+        return parser(text);
+      }
+      return text;
+    }
+    if (typeof text === 'string') {
+      return parser(`${text.slice(0, text.indexOf('<br><br>'))}<br><br>`);
+    }
+    return text.slice(0, text.indexOf('<br><br>'));
+  }
+
   render() {
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll">
@@ -259,7 +287,13 @@ export default class Vault extends Component {
                 {
                   (this.props.description) ?
                     <div className="title-description">
-                      {typeof this.props.description === 'string' ? parser(this.props.description) : this.props.description}
+                      {this.parse(this.props.description)}
+                      {
+                        (this.state.showFullText) ?
+                          <div className="read-more" onClick={() => { this.setState({ showFullText: false })}}>{i18n.t('hide-full-text')}</div>
+                        :
+                          <div className="read-more" onClick={() => { this.setState({ showFullText: true }) }}>{i18n.t('show-full-text')}</div>
+                      }
                     </div>
                     :
                     null
@@ -297,30 +331,26 @@ export default class Vault extends Component {
                 </Parameter>
               </Contract>
             </Expand>
-            <Expand url={'/'} label={this.state.assets} open={false}
-              icon={share} iconActive={shareActive}
-            >
-              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
-                <Parameter label={i18n.t('vault-shares')}>
-                  <Token quantity={this.state.balanceOf} symbol={this.props.vaultTicker} decimals={'18'} />
-                </Parameter>
-                <Parameter label={i18n.t('shares-value')}>
-                  <Token quantity={this.state.sharesValue} symbol={this.props.fiat} decimals={'18'} />
-                </Parameter>
-              </Contract>
-            </Expand>
-            <Expand url={'/'} label={this.state.prices} open={false}
-              icon={price} iconActive={priceActive}
-            >
-              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
-                <Parameter label={`${this.props.symbol} ${i18n.t('price')}`}>
-                  <Token quantity={this.state.oraclePrice} displayDecimals={true} symbol={this.props.fiat} decimals={'8'} />
-                </Parameter>
-                <Parameter label={i18n.t('price-per-share')}>
-                  <Token quantity={this.state.pricePerShare} displayDecimals={true} symbol={this.props.fiat} decimals={'18'} />
-                </Parameter>
-              </Contract>
-            </Expand>
+            {(this.state.web3Enabled) ?
+              <Expand url={'/'} label={this.state.assets} open={true}
+                icon={share} iconActive={shareActive}
+              >
+                <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
+                  <Parameter label={i18n.t('vault-shares')}>
+                    <Token quantity={this.state.balanceOf} symbol={this.props.vaultTicker} decimals={'18'} />
+                  </Parameter>
+                  <Parameter label={i18n.t('shares-value')}>
+                    <Token quantity={this.state.sharesValue} symbol={this.props.fiat} noFormatting={true} />
+                  </Parameter>
+                </Contract>
+              </Expand>
+              :
+              <Warning label={i18n.t('web3-not-found')}
+                hasCallToAction
+                callToActionLabel={'install-web3-wallet'}
+                callToAction={() => { this.withdrawDeprecated() }}
+              />
+            }
           </div>
           {(this.state.displayDeprecatedVault) ?
             <Warning label={i18n.t('vault-warning-ubi-dai', { balance: `${getBalanceLabel(this.state.deprecatedBalance, 18, '0,0.[00]')} ${this.props.vaultTicker}` })} 
@@ -331,14 +361,18 @@ export default class Vault extends Component {
           :
             null
           }
-          <Wallet 
-            symbol={this.props.symbol} 
-            tokenAddress={this.props.token}
-            contractAddress={this.props.address}
-            accountAddress={this.props.account}
-            abi={this.props.vaultABI}
-            refresh={() => { this.refresh(); }}
-          />
+          {(this.state.web3Enabled) ?
+            <Wallet 
+              symbol={this.props.symbol} 
+              tokenAddress={this.props.token}
+              contractAddress={this.props.address}
+              accountAddress={this.props.account}
+              abi={this.props.vaultABI}
+              refresh={() => { this.refresh(); }}
+            />
+            :
+            null
+          }
         </div>
       </div>
     );

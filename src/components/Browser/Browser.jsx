@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import Search from 'components/Search/Search';
-import Account from 'components/Account/Account';
+import Human from 'components/Human/Human';
 import DAO from 'components/DAO/DAO';
 import Timeline from 'components/Timeline/Timeline';
 import Title from 'components/Title/Title';
@@ -121,7 +121,7 @@ class Browser extends Component {
 
   renderTitle() {
     if (this.props.match.params.address) {
-      return <Account publicAddress={this.props.match.params.address} format="searchBar" />
+      return <Human publicAddress={this.props.match.params.address} format="searchBar" />
     }
     
     if (this.props.match.params.dao) {
@@ -168,7 +168,7 @@ class Browser extends Component {
                   <img src={signout} alt="" title={i18n.t('sign-out')} className="signout" />
                 </button>
                 <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
-                  <Account publicAddress={this.props.address} width="20px" height="20px" format="plainText" />
+                  <Human publicAddress={this.props.address} width="24px" height="24px" format="plainText" />
                 </div>
               </div>
               :

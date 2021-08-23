@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { shortenCryptoName } from 'utils/strings';
-import Account from 'components/Account/Account';
+import Human from 'components/Human/Human';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
 
@@ -74,9 +74,7 @@ export default class Event extends Component {
 
   async refresh(address) {
     this.vault = await new this.web3.eth.Contract(ubidaiABI, address);
-
     await this.getFeed();
-    
     this.setState({
       loading: false
     });
@@ -139,17 +137,17 @@ export default class Event extends Component {
 
     return sortedFeed.map((post) => {
       return (
-        <div key={post.id} className="event-vote" onClick={() => { window.open(`https://etherscan.io/tx/${post.transactionHash}`); }} target="_blank" rel="noopener noreferrer" >
+        <div key={post.id} className="event-vote">
           {(post.event === 'Transfer') ?
             <>
               {(post.returnValues.sender !== zeroAddress) ?
-                <Account publicAddress={post.returnValues.sender} width="16px" height="16px" />
+                <Human publicAddress={post.returnValues.sender} width="24px" height="24px" />
                 :
                 <>
                   {(post.returnValues.receiver !== zeroAddress) ?
-                    <Account publicAddress={post.returnValues.receiver} width="16px" height="16px" />
+                    <Human publicAddress={post.returnValues.receiver} width="24px" height="24px" />
                     :
-                    <Account publicAddress={post.returnValues.receiver} width="16px" height="16px" />
+                    <Human publicAddress={post.returnValues.receiver} width="24px" height="24px" />
                   }
                 </>
               }
@@ -173,7 +171,7 @@ export default class Event extends Component {
                 </>
               }
               
-              <Stamp timestamp={post.timestamp.toString()} format="timeSince" />
+              <Stamp timestamp={post.timestamp.toString()} format="timeSince" link={`https://etherscan.io/tx/${post.transactionHash}`} />
             </>
             :
             null

@@ -30,8 +30,13 @@ const _getBalanceLabel = (quantity, decimals, format) => {
 * @summary renders a post in the timeline
 */
 const Token = (props) => {
-  const format = props.displayDecimals ? '0,0.0000' : '0,0.[00]'
-  const balance = _getBalanceLabel(props.quantity, props.decimals, format);
+  let balance;
+  if (!props.noFormatting) {
+    const format = props.displayDecimals ? '0,0.0000' : '0,0.[00]'
+    balance = _getBalanceLabel(props.quantity, props.decimals, format);
+  } else {
+    balance = props.quantity
+  }
 
   let imageExists = false;
   let image;
@@ -72,7 +77,8 @@ Token.propTypes = {
   publicAddress: PropTypes.string,
   symbol: PropTypes.string,
   decimals: PropTypes.string,
-  displayDecimals: PropTypes.bool
+  displayDecimals: PropTypes.bool,
+  noFormatting: PropTypes.bool,
 };
 
 export default Token;

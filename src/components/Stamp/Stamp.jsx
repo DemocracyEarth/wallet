@@ -1,5 +1,5 @@
+
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 
@@ -20,7 +20,7 @@ export default class Stamp extends Component {
     super(props);
 
     this.state = {
-      url: _dateURL(this.props.timestamp),
+      url: this.props.link ? this.props.link : _dateURL(this.props.timestamp),
       label: this.getFormattedLabel(this.props.format),
       fullDate: this.getFormattedLabel(),
     };
@@ -49,9 +49,9 @@ export default class Stamp extends Component {
   render() {
     return (
       <div className="date-info">
-        <Link to={this.state.url} title={this.state.fullDate.replace(/&#183;/g, '·')} className="verifier verifier-live verifier-feed" onClick={(e) => { e.stopPropagation(); }}>
+        <a href={this.state.url} target="_blank" rel="noopener noreferrer" title={this.state.fullDate.replace(/&#183;/g, '·')} className="verifier verifier-live verifier-feed" onClick={(e) => { e.stopPropagation(); }}>
           {parser(this.state.label)}
-        </Link>
+        </a>
       </div>
     );
   }
@@ -60,4 +60,5 @@ export default class Stamp extends Component {
 Stamp.propTypes = {
   timestamp: PropTypes.string,
   format: PropTypes.string,
+  link: PropTypes.string,
 };

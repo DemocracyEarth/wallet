@@ -1,47 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-
 import Ledger from 'components/Ledger/Ledger';
 import List from 'components/List/List';
 import Burger from 'components/Menu/Burger';
 import Vault from 'components/Vault/Vault';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
-
 import { daiPriceABI, daiPriceOracle, daiAddress } from 'components/Vault/chainlink-daiprice-abi.js';
 import { wethPriceABI, wethPriceOracle, wethAddress } from 'components/Vault/chainlink-wethprice-abi.js';
 import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
 import { ubiwethABI } from 'components/Vault/ubiweth-abi.js';
-
 import { find } from 'lodash';
-
 import i18n from 'i18n';
 import { view as routerView } from 'lib/const';
 import twitterCard from 'images/twitter-meta.png';
 
 import 'styles/Dapp.css';
 
-/*
-
-                  account={props.address}
-                  address="0xE721D77FB3D680de95aF510D79c24E839308352B"
-                  strategy="0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79"
-                  deprecated="0x8EBd041213218953109724e60c9cE91B57887288"
-                  title={i18n.t('ubi-dai-title')}
-                  description={i18n.t('ubi-dai-description')}
-                  link={'https://youtu.be/6008FYXc3IU'}
-*/
-
 const vaultList = [
   {
     path: 'ubi-dai',
     address: '0xdf5110ef6bc751cbaf76d35b8a3f312b581b5173',
-    strategy: '0x137f79e5a16BcF14d6a54d1d4CEdB00B8CE65838', // previous strategy: '0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79',
+    strategy: '0x137f79e5a16BcF14d6a54d1d4CEdB00B8CE65838',
     deprecated: '0xE721D77FB3D680de95aF510D79c24E839308352B',
     title: i18n.t('ubi-dai-title'),
     description: i18n.t('ubi-dai-description'),
-    link: 'https://youtu.be/6008FYXc3IU',
+    link: '',
     vaultTicker: i18n.t('ticker-ubidai'),
     vaultABI: ubidaiABI,
     token: daiAddress,
@@ -59,7 +44,7 @@ const vaultList = [
     deprecated: '',
     title: i18n.t('ubi-weth-title'),
     description: i18n.t('ubi-weth-description'),
-    link: 'https://youtu.be/6008FYXc3IU',
+    link: '',
     vaultTicker: i18n.t('ticker-ubiweth'),
     token: wethAddress,
     symbol: 'WETH',
@@ -122,10 +107,8 @@ const Layout = (props) => {
     view = routerView.SEARCH;
     description = i18n.t('meta-search', { search });
   } else if (vault) {
-    console.log(`vault: ${vault}`);
     vaultData = find(vaultList, { path: vault });
   } else {
-    console.log(`ordinary`);
     vaultData = vaultList[1];
   }
 
@@ -202,7 +185,7 @@ const Layout = (props) => {
               view={view} 
               proposalId={proposalId} 
               first={25} 
-              skip={0}  
+              skip={0}
             />
           </div>
         </div>
