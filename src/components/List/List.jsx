@@ -60,12 +60,16 @@ export default class List extends Component {
       <div id="sidebar" className={getScrollClass(this.state.scrollUp)}>
         <div className="menu">
           <div className="separator">
-            {i18n.t('proposals-vault')}
+            {i18n.t('ubi-dapps')}
           </div>
           <div className="submenu">
+            <Item sharp label={i18n.t('posta')} score={0} key={0} href={'/posta/all'} />
+            <Item sharp label={i18n.t('vaults')} score={0} key={1} href={'/vault/all'} />
+            {/*
             <Item sharp label={i18n.t('vault-ubi-dai')} score={0} status={i18n.t('live')} key={0} href={'/vault/ubi-dai'} />
             <Item sharp label={i18n.t('vault-ubi-eth')} score={0} status={i18n.t('live')} key={1} href={'/vault/ubi-weth'} />
             <Item sharp label={i18n.t('vault-ubi-wbtc')} score={0} status={i18n.t('soon')} disabled key={2} href={'/vault/ubi-wbtc'} />
+            */}
           </div>
         </div>
       </div>

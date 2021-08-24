@@ -1010,5 +1010,8 @@
   "show-full-text": "Read more...",
   "hide-full-text": "Read less...",
   "web3-not-found": "An Ethereum wallet is required to interact with the smart contract.",
-  "install-web3-wallet": "<a><strong>Install Metamask or any compatible Ethereum wallet.</strong></a>"
+  "install-web3-wallet": "<a><strong>Install Metamask or any compatible Ethereum wallet.</strong></a>",
+  "ubi-dapps": "UBI Dapps",
+  "vaults": "Vaults",
+  "posta": "Posta"
 }

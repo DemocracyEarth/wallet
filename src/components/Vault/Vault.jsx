@@ -105,7 +105,6 @@ export default class Vault extends Component {
 
   async shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.account !== this.props.account || nextProps.address !== this.props.address) {
-      console.log('Vault.jsx -> shouldComponentUpdate()');
       this.web3 = new Web3(getProvider());
       await this.getOraclePrice(nextProps);
       await this.refresh();

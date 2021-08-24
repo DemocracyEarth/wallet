@@ -73,7 +73,8 @@ const Layout = (props) => {
   // context specific
   let description = i18n.t('meta-description');
   let vaultData;
-
+  let feed;
+  let events;
   if (dao) {
     // periodEpoch = searchParams.get('period');
     renderAddress = dao; 
@@ -108,6 +109,42 @@ const Layout = (props) => {
     description = i18n.t('meta-search', { search });
   } else if (vault) {
     vaultData = find(vaultList, { path: vault });
+
+    feed = vaultList.map((item) => {
+      return (
+        <Vault
+          vaultTicker={item.vaultTicker}
+          vaultABI={item.vaultABI}
+          account={item.address} 
+          address={item.address}
+          strategy={item.strategy}
+          deprecated={item.deprecated}
+          title={item.title}
+          description={item.description}
+          link={item.link}
+          token={item.token}
+          symbol={item.symbol}
+          decimals={item.decimals}
+          oracle={item.oracle}
+          oracleABI={item.oracleABI}
+          fiat={item.fiat}
+          fiatDecimals={item.fiatDecimals}
+        />
+      )
+    });
+
+    events = () => {
+      return (
+        <Ledger 
+          address={vaultList[0].address}
+          symbol={vaultList[0].symbol}
+          view={view} 
+          proposalId={proposalId} 
+          first={25} 
+          skip={0}
+        />
+      )
+    }
   } else {
     vaultData = vaultList[1];
   }
@@ -155,38 +192,12 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                {/*<Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
-                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />*/}
-                <Vault
-                  vaultTicker={vaultData.vaultTicker}
-                  vaultABI={vaultData.vaultABI}
-                  account={props.address} 
-                  address={vaultData.address}
-                  strategy={vaultData.strategy}
-                  deprecated={vaultData.deprecated}
-                  title={vaultData.title}
-                  description={vaultData.description}
-                  link={vaultData.link}
-                  token={vaultData.token}
-                  symbol={vaultData.symbol}
-                  decimals={vaultData.decimals}
-                  oracle={vaultData.oracle}
-                  oracleABI={vaultData.oracleABI}
-                  fiat={vaultData.fiat}
-                  fiatDecimals={vaultData.fiatDecimals}
-                />
+                {feed}
               </div>
             </div>
           </div>
           <div id="alternative-feed" className="split split-right split-landing">
-            <Ledger 
-              address={vaultData.address}
-              symbol={vaultData.symbol}
-              view={view} 
-              proposalId={proposalId} 
-              first={25} 
-              skip={0}
-            />
+            {events()}
           </div>
         </div>
       </div>
