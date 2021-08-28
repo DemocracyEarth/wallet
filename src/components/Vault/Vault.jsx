@@ -85,6 +85,7 @@ export default class Vault extends Component {
       percentage: '',
       showFullText: false,
       web3Enabled: true,
+      displayWETHWarning: false,
     }
 
     console.log(`Vault.jsx`);
@@ -98,6 +99,7 @@ export default class Vault extends Component {
     this.getPricePerShare = this.getPricePerShare.bind(this);
     this.getOraclePrice = this.getOraclePrice.bind(this);
     this.getDeprecatedBalance = this.getDeprecatedBalance.bind(this);
+    this.getWrappedEtherWarning = this.getWrappedEtherWarning.bind(this);
     this.withdrawDeprecated = this.withdrawDeprecated.bind(this);
     this.setLabels = this.setLabels.bind(this);
     this.parse = this.parse.bind(this);
@@ -128,6 +130,7 @@ export default class Vault extends Component {
       await this.getAvailableDepositLimit();
       await this.getBalanceOf();
       await this.getPricePerShare();
+      await this.getWrappedEtherWarning();
       this.getSharesValue();
 
       const provider = await detectEthereumProvider();
@@ -212,6 +215,15 @@ export default class Vault extends Component {
         deprecatedBalance,
         displayDeprecatedVault: new BigNumber(deprecatedBalance).isGreaterThan(0)
       });
+    }
+  }
+
+  async getWrappedEtherWarning() {
+    console.log(`this.props.symbol: ${this.props.symbol}`);
+    if (this.props.symbol === 'WETH') {
+      this.setState({ displayWETHWarning: true });
+    } else {
+      this.setState({ displayWETHWarning: false });
     }
   }
 
@@ -357,6 +369,15 @@ export default class Vault extends Component {
               hasCallToAction 
               callToActionLabel={'vault-warning-withdraw'}
               callToAction={() => { this.withdrawDeprecated() }}
+            />
+          :
+            null
+          }
+          {(this.state.displayWETHWarning) ?
+            <Warning label={i18n.t('vault-warning-weth')}
+              hasCallToAction
+              callToActionLabel={'vault-warning-swap-weth'}
+              callToAction={() => { window.open('https://app.uniswap.org/#/swap'); }}
             />
           :
             null

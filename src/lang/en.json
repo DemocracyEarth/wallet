@@ -1001,6 +1001,8 @@
   "activity": "Activity",
   "vault-warning-ubi-dai": "<strong>👀 Attention:</strong> A remaining balance of {{balance}} shares <br>was left in the previous version of this vault.",
   "vault-warning-withdraw":"<a><strong>Withdraw all of the remaining balance from previous vault.</strong></a>",
+  "vault-warning-weth": "This vault requires you operate with WETH instead of ETH.",
+  "vault-warning-swap-weth": "<a><strong>Remember to swap your ETH for WETH first.</strong></a>",
   "ticker-usd": "USD",
   "ticker-ubidai": "UBIDAI",
   "ticker-ubiweth":"UBIWETH",
