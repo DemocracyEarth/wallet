@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import BigNumber from 'bignumber.js/bignumber';
 import { shortenCryptoName } from 'utils/strings';
 import Human from 'components/Human/Human';
 import Stamp from 'components/Stamp/Stamp';
@@ -22,6 +22,20 @@ import { getProvider } from 'lib/web3';
 
 const Web3 = require('web3');
 
+function ordinal_suffix_of(i) {
+  var j = i % 10,
+    k = i % 100;
+  if (j == 1 && k != 11) {
+    return i + "st";
+  }
+  if (j == 2 && k != 12) {
+    return i + "nd";
+  }
+  if (j == 3 && k != 13) {
+    return i + "rd";
+  }
+  return i + "th";
+}
 
 /**
 * @summary displays the contents of a poll
@@ -57,6 +71,7 @@ export default class Event extends Component {
 
     this.web3 = new Web3(getProvider());
     this.getFeed = this.getFeed.bind(this);
+    this.getPosition = this.getPosition.bind(this);
   }
 
 
@@ -85,7 +100,7 @@ export default class Event extends Component {
     const currentBlock = await this.web3.eth.getBlockNumber();
 
     await this.vault.events.allEvents({
-      fromBlock: parseInt(currentBlock - 100000, 10),
+      fromBlock: parseInt(currentBlock - 300000, 10),
       toBlock: 'latest'
     }, async (error, tx) => {
       if (error) {
@@ -103,6 +118,7 @@ export default class Event extends Component {
           }
         }
         if (!found) {
+          tx.sortNumber = BigNumber(tx.returnValues.value).toNumber();
           log.push(tx);
         }
         this.setState({
@@ -111,6 +127,19 @@ export default class Event extends Component {
       }
       return tx;
     })
+  }
+
+  getPosition(position) {
+    switch (position) {
+      case 1:
+        return i18n.t('leaderboard-first');
+      case 2:
+        return i18n.t('leaderboard-second');
+      case 3:
+        return i18n.t('leaderboard-third');
+      default:
+      return ordinal_suffix_of(position);
+    }
   }
 
   render() {
@@ -133,9 +162,9 @@ export default class Event extends Component {
       }
     }
 
-    const sortedFeed = sortBy(this.state.feed, (item) => { return (item.timestamp * -1) })
+    const sortedFeed = sortBy(this.state.feed, (item) => { return (item.sortNumber * -1) })
 
-    return sortedFeed.map((post) => {
+    return sortedFeed.map((post, index) => {
       return (
         <div key={post.id} className="event-vote">
           {(post.event === 'Transfer') ?
@@ -170,7 +199,9 @@ export default class Event extends Component {
                   }
                 </>
               }
-              
+              <div className="verifier verifier-live verifier-feed verifier-leader">
+                {this.getPosition(parseInt(index + 1, 10))}
+              </div>
               <Stamp timestamp={post.timestamp.toString()} format="timeSince" link={`https://etherscan.io/tx/${post.transactionHash}`} />
             </>
             :

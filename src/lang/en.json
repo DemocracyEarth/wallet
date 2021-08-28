@@ -1001,6 +1001,8 @@
   "activity": "Activity",
   "vault-warning-ubi-dai": "<strong>👀 Attention:</strong> A remaining balance of {{balance}} shares <br>was left in the previous version of this vault.",
   "vault-warning-withdraw":"<a><strong>Withdraw all of the remaining balance from previous vault.</strong></a>",
+  "vault-warning-weth": "This vault requires you operate with WETH instead of ETH.",
+  "vault-warning-swap-weth": "<a><strong>Remember to swap your ETH for WETH first.</strong></a>",
   "ticker-usd": "USD",
   "ticker-ubidai": "UBIDAI",
   "ticker-ubiweth":"UBIWETH",
@@ -1009,6 +1011,11 @@
   "ticker-weth": "WETH",
   "show-full-text": "Read more...",
   "hide-full-text": "Read less...",
+  "vault-leaderboard": "Vault Leaderboard",
   "web3-not-found": "An Ethereum wallet is required to interact with the smart contract.",
-  "install-web3-wallet": "<a><strong>Install Metamask or any compatible Ethereum wallet.</strong></a>"
+  "install-web3-wallet": "<a><strong>Install Metamask or any compatible Ethereum wallet.</strong></a>",
+  "leaderboard-first": "🥇 Gold Medal",
+  "leaderboard-second": "🥈 Silver Medal",
+  "leaderboard-third": "🥉 Bronze Medal",
+  "leaderboard-position": "{{ordinal}} Position"
 }
