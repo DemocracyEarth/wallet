@@ -130,7 +130,7 @@ export default class Vault extends Component {
       await this.getAvailableDepositLimit();
       await this.getBalanceOf();
       await this.getPricePerShare();
-      await this.getWrappedEtherWarning();
+      this.getWrappedEtherWarning();
       this.getSharesValue();
 
       const provider = await detectEthereumProvider();
@@ -218,8 +218,7 @@ export default class Vault extends Component {
     }
   }
 
-  async getWrappedEtherWarning() {
-    console.log(`this.props.symbol: ${this.props.symbol}`);
+  getWrappedEtherWarning() {
     if (this.props.symbol === 'WETH') {
       this.setState({ displayWETHWarning: true });
     } else {

@@ -1821,6 +1821,12 @@ blockquote {
   text-decoration: underline;
 }
 
+.verifier.verifier-live.verifier-feed.verifier-leader:hover {
+  border-style: none;
+  text-decoration: none;
+  cursor:default;
+}
+
 .verifier.verifier-live.verifier-feed.no-link {
   cursor: default;
 }
