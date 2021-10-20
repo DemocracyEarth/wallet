@@ -15,7 +15,7 @@
   --browser-button-color: #7d8499;
   --menu-sidebar-selected: #580173;
   --bar-tag: #f3e7f7;
-  --light-button-color:#e6e0ee;
+  --light-button-color: #e6e0ee;
   --warning-background-color: #fff39c;
   --warning-color: #ae9800;
   --link-color: #ff617e;
@@ -1824,7 +1824,7 @@ blockquote {
 .verifier.verifier-live.verifier-feed.verifier-leader:hover {
   border-style: none;
   text-decoration: none;
-  cursor:default;
+  cursor: default;
 }
 
 .verifier.verifier-live.verifier-feed.no-link {
@@ -5198,6 +5198,8 @@ blockquote {
 
 .hero-signin {
   float: right;
+  position: relative;
+  z-index: 1;
 }
 
 .login-button-first {
@@ -6638,7 +6640,7 @@ h2 {
   margin: 14px 0px;
   position: absolute;
   right: 200px;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .subtitle {
@@ -6651,7 +6653,6 @@ h2 {
     left: 60px;
     right: 155px;
   }
-
 
   .card-title {
     text-decoration: underline;
@@ -7084,11 +7085,9 @@ h2 {
 }
 
 @media (max-width: 479px) {
-
   .parameter {
     width: 100%;
   }
-
 }
 
 .parameter-name {
@@ -7179,8 +7178,8 @@ h2 {
 }
 
 .symbol.profile-pic.human {
-  margin-top:6px;
-  margin-bottom:0px;
+  margin-top: 6px;
+  margin-bottom: 0px;
 }
 
 .symbol.profile-pic.icon {
@@ -7523,7 +7522,6 @@ h4 {
   padding: 5px 10px;
 }
 
-
 .transaction-action-rejected {
   background-color: var(--negative-signal-background-color);
   color: var(--negative-signal-color);
@@ -7824,7 +7822,7 @@ h4 {
 }
 
 .read-more {
-  background-color: #FF6181;
+  background-color: #ff6181;
   color: white;
   padding: 1px 8px;
   border-radius: 7px;
